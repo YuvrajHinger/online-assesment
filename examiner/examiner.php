@@ -5,13 +5,13 @@ require_once 'database.php';
 require_once 'layout.php';
 $flag = 0;
 $delete_alert = 0;
-if (isset($_POST['candidate_submit'])) {
-    $candidate_username = $_POST['candidate_username'];
-    $result = $con->query("select candidate_id from candidate_login where candidate_username='$candidate_username'");
+if (isset($_POST['examiner_submit'])) {
+    $examiner_username = $_POST['examiner_username'];
+    $result = $con->query("select examiner_id from examiner_login where examiner_username='$examiner_username'");
     $count = $result->num_rows;
     if ($count == 0) {
-        $candidate_password = $_POST['candidate_password'];
-        $query = "INSERT INTO candidate_login(candidate_username,candidate_password) VALUES ('$candidate_username','$candidate_password')";
+        $examiner_password = $_POST['examiner_password'];
+        $query = "INSERT INTO examiner_login(examiner_username,examiner_password) VALUES ('$examiner_username','$examiner_password')";
         $con->query($query);
         $flag = 1;
     } else $flag = -1;
@@ -19,12 +19,12 @@ if (isset($_POST['candidate_submit'])) {
 if (isset($_POST['delete_id'])) {
     $delete_alert = 1;
     $delete_id = $_POST['delete_id'];
-    if ($con->query("update `candidate_login` SET `status`='1' where candidate_id='$delete_id'")) $delete_alert = 1;
+    if ($con->query("update `examiner_login` SET `status`='1' where examiner_id='$delete_id'")) $delete_alert = 1;
     else $delete_alert = -1;
 }
 if (isset($_POST['edit_id'])) {
-    $_SESSION['candidate_edit_id'] = $_POST['edit_id'];
-    header("Location: candidate_edit.php");
+    $_SESSION['examiner_edit_id'] = $_POST['edit_id'];
+    header("Location: examiner_edit.php");
 }
 ?>
 <html>
@@ -41,11 +41,13 @@ if (isset($_POST['edit_id'])) {
                     <center>
                         <li class="breadcrumb-item">
                             <h4>
-                                <a>Candidate View</a>
+                                <a>Examiner View</a>
                             </h4>
                         </li>
                     </center>
                 </ol>
+                <?php
+                if ($_SESSION['examiner_id'] == 1) { ?>
                 <div class="validation-system">
                     <div class="validation-form">
                         <div class="row">
@@ -53,7 +55,7 @@ if (isset($_POST['edit_id'])) {
                                 <?php if ($delete_alert == 1) { ?><div class="alert alert-success alert-dismissible">
                                     <button type="button" class="close" data-dismiss="alert"
                                         aria-hidden="true">×</button><i class="icon fa fa-angle-right"></i> Successfully
-                                    Deleted Candidate.</div> <?php  } else if ($delete_alert == -1) { ?><div
+                                    Deleted Examiner.</div> <?php  } else if ($delete_alert == -1) { ?><div
                                     class="alert alert-danger alert-dismissible"><button type="button" class="close"
                                         data-dismiss="alert" aria-hidden="true">×</button><i class="icon fa fa-ban"></i>
                                     Problem Deleting Data.</div> <?php  } ?>
@@ -67,14 +69,14 @@ if (isset($_POST['edit_id'])) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php $query = "select * from `candidate_login` where status = '0'";
-                                        $getData = $con->query($query);
-                                        $i = 0;
-                                        while ($fetchData = $getData->fetch_assoc()) {
-                                            $i++;
-                                            $id = $fetchData['candidate_id'];
-                                            $username = $fetchData['candidate_username'];
-                                            $password = $fetchData['candidate_password']; ?>
+                                        <?php $query = "select * from `examiner_login` where status = '0'";
+                                            $getData = $con->query($query);
+                                            $i = 0;
+                                            while ($fetchData = $getData->fetch_assoc()) {
+                                                $i++;
+                                                $id = $fetchData['examiner_id'];
+                                                $username = $fetchData['examiner_username'];
+                                                $password = $fetchData['examiner_password']; ?>
                                         <tr>
                                             <td> <?php echo $i; ?></td>
                                             <td><?php echo $username; ?></td>
@@ -139,33 +141,30 @@ if (isset($_POST['edit_id'])) {
                                 </table>
                             </div>
                             <div class="col-md-5" style="margin-bottom: 10px">
-                                <a href="add_candidate_ByExcel.php" class="float-right btn btn-warning">
-                                    <i class="fa fa-file-excel-o"> Excel</i>
-                                </a>
                                 <form action="" method="post" class="myform">
                                     <div class="col-md-12 form-group1 group-mail">
-                                        <label class="control-label"> Candidate Username</label>
-                                        <input type="text" name="candidate_username" class="form-control"
+                                        <label class="control-label"> Examiner Username</label>
+                                        <input type="text" name="examiner_username" class="form-control"
                                             placeholder="username" style=" border-radius: 20px; color: black;" autofocus
                                             required>
                                     </div>
                                     <div class="clearfix"> </div>
                                     <div class="col-md-12 form-group1 group-mail">
-                                        <label class="control-label"> Candidate Password</label>
-                                        <input type="password" name="candidate_password" class="form-control"
+                                        <label class="control-label"> Examiner Password</label>
+                                        <input type="password" name="examiner_password" class="form-control"
                                             placeholder="password" style=" border-radius: 20px; color: black;" required>
                                     </div>
                                     <div class="clearfix"> </div>
                                     <?php if ($flag == 1) { ?> <div class="alert alert-success alert-dismissible">
                                         <button type="button" class="close" data-dismiss="alert"
                                             aria-hidden="true">×</button><i class="icon fa fa-angle-right"></i>
-                                        Successfully Registerd Candidate.</div> <?php  } else if ($flag == -1) { ?><div
+                                        Successfully Registerd Examiner.</div> <?php  } else if ($flag == -1) { ?><div
                                         class="alert alert-danger alert-dismissible"><button type="button" class="close"
                                             data-dismiss="alert" aria-hidden="true">×</button><i
                                             class="icon fa fa-ban"></i> Problem Inserting Data.</div> <?php  } ?>
                                     <div class="col-md-12 form-group">
                                         <button type="submit" style="border-radius: 20px;" class="btn btn-primary"
-                                            name="candidate_submit">Submit</button>
+                                            name="examiner_submit">Submit</button>
                                         <button type="reset" style="border-radius: 20px;" class="btn btn-default"
                                             value="reset">Reset</button>
                                     </div>
@@ -175,6 +174,7 @@ if (isset($_POST['edit_id'])) {
                         </div>
                     </div>
                 </div>
+                <?php } else echo "<h5>You don't have access to this tool.</h5>"; ?>
             </div>
         </div>
         <?php script(); ?>
