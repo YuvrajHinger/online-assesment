@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 05, 2020 at 11:29 AM
+-- Generation Time: Jun 05, 2020 at 03:38 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.4
 
@@ -91,15 +91,16 @@ CREATE TABLE `candidate_detail` (
   `name` varchar(200) NOT NULL,
   `hsc` varchar(100) NOT NULL,
   `ssc` varchar(100) NOT NULL,
-  `higherstudies` varchar(200) NOT NULL
+  `ug` varchar(200) NOT NULL,
+  `pg` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `candidate_detail`
 --
 
-INSERT INTO `candidate_detail` (`id`, `candidate_id`, `name`, `hsc`, `ssc`, `higherstudies`) VALUES
-(3, 1, 'YUVRAJ HINGER', '70%', '53%', '72%');
+INSERT INTO `candidate_detail` (`id`, `candidate_id`, `name`, `hsc`, `ssc`, `ug`, `pg`) VALUES
+(3, 1, 'YUVRAJ HINGER', '70%', '53%', '72%', '0');
 
 -- --------------------------------------------------------
 

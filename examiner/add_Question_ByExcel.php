@@ -82,6 +82,8 @@ if (isset($_POST['excel_submit'])) {
                                 src="../include/image/quiz_upload.png" alt="Guideline For Upload" />
                             <hr>
                             <h4 class="caption text-dark">File Format: filename.xls</h4>
+                            <a href="/online-assesment/Database/quiz_add_format.xls" download>Download
+                                Format.</a>
                             <hr>
                             <h4 class="caption text-danger">Your Excel File Must Be in This Given Format. |</h4>
                             <hr>
@@ -96,7 +98,7 @@ if (isset($_POST['excel_submit'])) {
                                 <select class="form-control select2" name="title" required>
                                     <option value="">Select any exam</option>
                                     <?php $result = $con->query("SELECT * FROM category where status='0'");
-                                                                                while ($row = $result->fetch_assoc()) { ?>
+                                    while ($row = $result->fetch_assoc()) { ?>
                                     <option value="<?php echo $row['id'] ?>"><?php echo $row['title']; ?></option>
                                     <?php } ?>
                                 </select>
